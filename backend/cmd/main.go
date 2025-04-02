@@ -40,7 +40,7 @@ func main() {
 	})
 
 	// Servir archivos estáticos del frontend (desde la raíz del proyecto)
-	frontendPath := filepath.Join("..", "frontend")
+	frontendPath := filepath.Join("/app", "frontend")
 	r.Static("/static", filepath.Join(frontendPath, "static")) // CSS/JS
 	r.GET("/", func(c *gin.Context) {
 		c.File(filepath.Join(frontendPath, "index.html"))
