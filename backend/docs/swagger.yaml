@@ -68,7 +68,7 @@ definitions:
         description: Monto total de la venta
         type: number
     type: object
-host: localhost:8080
+host: bazar-go.onrender.com
 info:
   contact: {}
   description: API para gestionar productos, clientes y ventas de un bazar.
@@ -426,4 +426,6 @@ paths:
       summary: Actualizar venta
       tags:
       - Ventas
+schemes:
+- https
 swagger: "2.0"

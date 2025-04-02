@@ -22,8 +22,9 @@ import (
 // @title Bazar API
 // @version 1.0
 // @description API para gestionar productos, clientes y ventas de un bazar.
-// @host localhost:8080
+// @host bazar-go.onrender.com
 // @BasePath /api/v1
+// @schemes https
 func main() {
 	// Inicializa la base de datos
 	config.InitDB()
