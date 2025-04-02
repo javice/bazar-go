@@ -8,33 +8,24 @@
 <body>
     <h1>Productos</h1>
     <div id="productos"></div>
-    
-
     <h2>Agregar Producto</h2>
     <form id="formProducto">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" placeholder="Nombre" required>
-    
         <label for="categoria">Categoría:</label>
         <input type="text" id="categoria" placeholder="Categoría" required>
-    
         <label for="descripcion">Descripción:</label>
         <input type="text" id="descripcion" placeholder="Descripción">
-    
         <label for="precio">Precio:</label>
         <input type="number" id="precio" placeholder="Precio" step="0.01" required>
-    
         <label for="stock">Stock:</label>
         <input type="number" id="stock" placeholder="Stock" required>
-    
         <button type="submit">Guardar</button>
     </form>
-
     <h2>Agregar Venta</h2>
     <form id="formVenta" method="post">
         <label for="client_id">ID Cliente:</label>
         <input type="text" id="client_id" placeholder="ID Cliente" required>
-
         <div id="productRows">
             <div class="productRow">
                 <label for="product_id">ID del Producto:</label>
