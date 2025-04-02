@@ -1,4 +1,7 @@
 {
+    "schemes": [
+        "https"
+    ],
     "swagger": "2.0",
     "info": {
         "description": "API para gestionar productos, clientes y ventas de un bazar.",
@@ -6,7 +9,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "bazar-go.onrender.com",
     "basePath": "/api/v1",
     "paths": {
         "/clients": {
