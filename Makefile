@@ -37,7 +37,7 @@ deps:
 # Construir el binario del backend
 build-backend:
 	@echo "Construyendo el binario del backend..."
-	@cd backend && go build -v -o build/${BINARY_NAME} cmd/main.go
+	@cd backend/cmd && go build -v -o build/${BINARY_NAME} cmd/main.go
 
 # Verificar que el binario existe
 verify-binary:
