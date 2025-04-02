@@ -43,7 +43,7 @@ jobs:
 
       # Construir el binario
       - name: Build binary
-        run: cd backend && go build -v -o build/bazar-api ./main.go
+        run: cd backend/cmd && go build -v -o build/bazar-api ./main.go
 
       # Verificar que el binario existe
       - name: Verify binary exists
