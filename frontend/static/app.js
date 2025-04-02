@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const apiUrl = 'http://localhost:8080/api/v1'; 
+    const apiUrl = 'https://bazar-go.onrender.com/api/v1'; 
     const productosDiv = document.getElementById('productos');
     const formProducto = document.getElementById('formProducto');
     const formVenta = document.getElementById('formVenta');
