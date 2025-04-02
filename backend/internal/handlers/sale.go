@@ -91,7 +91,7 @@ func GetAllSales(c *gin.Context) {
 // @Router /sales/{id} [get]
 func GetSaleByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	product, err := repositories.GetProductByID(uint(id))
+	product, err := repositories.GetSaleById(uint(id))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Venta no encontrada"})
 		return
