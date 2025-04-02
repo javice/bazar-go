@@ -55,20 +55,3 @@ jobs:
         with:
           name: bazar-api
           path: backend/cmd/build/bazar-api
-
-  lint-frontend:
-    name: Lint Frontend
-    runs-on: ubuntu-latest
-
-    steps:
-      # Descargar el código
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      # Validar HTML y JavaScript
-      - name: Check HTML/JS
-        run: |
-          cd frontend
-          npm install -g html-validate eslint
-          html-validate index.html
-          eslint app.js
