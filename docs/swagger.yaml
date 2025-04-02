@@ -1,0 +1,429 @@
+basePath: /api/v1
+definitions:
+  models.Client:
+    description: Modelo de cliente
+    properties:
+      address:
+        description: Dirección del cliente
+        type: string
+      client_id:
+        description: ID del cliente
+        type: integer
+      email:
+        description: Correo electrónico del cliente
+        type: string
+      name:
+        description: Nombre del cliente
+        type: string
+      phone:
+        description: Teléfono del cliente
+        type: string
+    type: object
+  models.Product:
+    description: Modelo de producto
+    properties:
+      category:
+        description: Categoría del producto
+        type: string
+      description:
+        description: Descripción del producto
+        type: string
+      name:
+        description: Nombre del producto
+        type: string
+      price:
+        description: Precio del producto
+        type: number
+      product_id:
+        description: ID del producto
+        type: integer
+      stock:
+        description: Stock del producto
+        type: integer
+    type: object
+  models.Sale:
+    description: Modelo de venta
+    properties:
+      client:
+        allOf:
+        - $ref: '#/definitions/models.Client'
+        description: Cliente asociado a la venta
+      client_id:
+        description: ID del cliente
+        type: integer
+      date:
+        description: Fecha de la venta
+        type: string
+      products:
+        description: Productos asociados a la venta
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
+      quantity:
+        description: Cantidad de productos vendidos
+        type: integer
+      sale_id:
+        type: integer
+      total_amount:
+        description: Monto total de la venta
+        type: number
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API para gestionar productos, clientes y ventas de un bazar.
+  title: Bazar API
+  version: "1.0"
+paths:
+  /api/v1/clients:
+    get:
+      description: Listar todos los clientes de la base de datos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Client'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Listar clientes
+      tags:
+      - Clientes
+    post:
+      consumes:
+      - application/json
+      description: Crear un nuevo cliente en la base de datos
+      parameters:
+      - description: Datos del cliente
+        in: body
+        name: sale
+        required: true
+        schema:
+          $ref: '#/definitions/models.Client'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Client'
+        "400":
+          description: Error de validación
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un cliente
+      tags:
+      - Clientes
+  /api/v1/clients/{id}:
+    delete:
+      description: Eliminamos un cliente existente
+      parameters:
+      - description: ID del cliente
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Eliminar cliente
+      tags:
+      - Clientes
+    get:
+      description: Obtener un cliente por su ID
+      parameters:
+      - description: ID del producto
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Obtener cliente por ID
+      tags:
+      - Clientes
+    put:
+      consumes:
+      - application/json
+      description: Actualizar un cliente existente
+      parameters:
+      - description: ID del cliente
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos del cliente
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/models.Client'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Client'
+      summary: Actualizar cliente
+      tags:
+      - Clientes
+  /api/v1/products:
+    get:
+      description: Obtiene una lista de todos los productos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Listar productos
+      tags:
+      - Productos
+    post:
+      consumes:
+      - application/json
+      description: Crear un nuevo producto en la base de datos
+      parameters:
+      - description: Datos del producto
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Error de validación
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear producto
+      tags:
+      - Productos
+  /api/v1/products/{id}:
+    delete:
+      description: Eliminamos un producto de la base de datos por su ID
+      parameters:
+      - description: ID del producto
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Eliminar producto
+      tags:
+      - Productos
+    get:
+      description: Obtenemos un producto por su ID
+      parameters:
+      - description: ID del producto
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+      summary: Obtener producto por ID
+      tags:
+      - Productos
+    put:
+      consumes:
+      - application/json
+      description: Actualizamos un producto por su ID
+      parameters:
+      - description: ID del producto
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos del producto
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+      summary: Actualizar producto
+      tags:
+      - Productos
+  /api/v1/sales:
+    get:
+      description: Listar todas las ventas de la base de datos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Sale'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Listar ventas
+      tags:
+      - Ventas
+    post:
+      consumes:
+      - application/json
+      description: Crear una nueva venta en la base de datos
+      parameters:
+      - description: Datos de la venta
+        in: body
+        name: sale
+        required: true
+        schema:
+          $ref: '#/definitions/models.Sale'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Sale'
+        "400":
+          description: Error de validación
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear una venta
+      tags:
+      - Ventas
+  /api/v1/sales/{id}:
+    delete:
+      description: Eliminamos una venta de nuestra base de datos
+      parameters:
+      - description: ID del producto
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Eliminar producto
+      tags:
+      - Ventas
+    get:
+      description: Listamos una venta por su ID
+      parameters:
+      - description: ID de la venta
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Sale'
+      summary: Obtener venta por ID
+      tags:
+      - Ventas
+    put:
+      consumes:
+      - application/json
+      description: Actualizar una venta existente
+      parameters:
+      - description: ID de la venta
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos de la venta actualizada
+        in: body
+        name: sale
+        required: true
+        schema:
+          $ref: '#/definitions/models.Sale'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Sale'
+      summary: Actualizar venta
+      tags:
+      - Ventas
+swagger: "2.0"

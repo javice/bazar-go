@@ -1,0 +1,74 @@
+name: CI Bazar (Backend + Frontend)
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test-and-build-backend:
+    name: Test and Build Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      # Configurar Go
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      # Descargar el código
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # Cache de módulos de Go
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      # Descargar dependencias
+      - name: Get dependencies
+        run: cd backend && go mod download
+
+      # Ejecutar pruebas
+      - name: Run tests
+        run: cd backend/tests && go test -v -cover ./...
+
+      # Construir el binario
+      - name: Build binary
+        run: cd backend && go build -v -o build/bazar-api ./main.go
+
+      # Verificar que el binario existe
+      - name: Verify binary exists
+        run: ls -l backend/build/bazar-api
+
+      # Subir el binario como artefacto
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: bazar-api
+          path: backend/build/bazar-api
+
+  lint-frontend:
+    name: Lint Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      # Descargar el código
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # Validar HTML y JavaScript
+      - name: Check HTML/JS
+        run: |
+          cd frontend
+          npm install -g html-validate eslint
+          html-validate index.html
+          eslint app.js

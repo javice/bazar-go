@@ -1,0 +1,17 @@
+# Backend
+backend/.env
+backend/bazar.db       # SQLite
+backend/bazar.db-shm
+backend/bazar.db-wal
+backend/docs/docs.go   # Swagger (se regenera)
+backend/bin/
+
+# Frontend
+frontend/node_modules/
+frontend/.DS_Store
+
+# Generales
+.DS_Store
+.idea/
+.vscode/
+*.log

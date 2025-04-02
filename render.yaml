@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: bazar-api
+    runtime: docker
+    envVars:
+      - key: GIN_MODE
+        value: release
+      - key: ENV
+        value: production
+    
