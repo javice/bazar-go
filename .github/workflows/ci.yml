@@ -47,14 +47,14 @@ jobs:
 
       # Verificar que el binario existe
       - name: Verify binary exists
-        run: ls -l backend/build/bazar-api
+        run: ls -l backend/cmd/build/bazar-api
 
       # Subir el binario como artefacto
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
           name: bazar-api
-          path: backend/build/bazar-api
+          path: backend/cmd/build/bazar-api
 
   lint-frontend:
     name: Lint Frontend
