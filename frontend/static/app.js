@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>Precio: $${product.price.toFixed(2)}</p>
                     <p>Stock: ${product.stock}</p>
                     <div class="producto-actions">
-                        <button onclick="editProduct(${product.product_id})" class="btn-edit">Editar</button>
+                        <button onclick='editProduct(${JSON.stringify(product)})' class="btn-edit">Editar</button>
                         <button onclick="deleteProduct(${product.product_id})" class="btn-delete">Eliminar</button>
                     </div>
                 </div>
@@ -61,6 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para abrir modal de edición
     window.editProduct = (product) => {
+        if (typeof product === 'string') {
+            product = JSON.parse(product); // Convertir de cadena JSON a objeto
+        }
         document.getElementById('editId').value = product.product_id;
         document.getElementById('editName').value = product.name;
         document.getElementById('editDescription').value = product.description;
