@@ -80,19 +80,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para enviar la actualización
     document.getElementById('editForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
+    e.preventDefault();
+
+        // Obtener los valores del formulario
         const id = document.getElementById('editId').value;
         const name = document.getElementById('editName').value;
         const description = document.getElementById('editDescription').value;
         const category = document.getElementById('editCategory').value;
         const stock = document.getElementById('editStock').value;
         const price = parseFloat(document.getElementById('editPrice').value);
-
+    
+        // Enviar la solicitud PUT al backend
         await fetch(`${apiUrl}/products/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ category,description,name, price,stock })
+            body: JSON.stringify({ category, description, name, price, stock })
         });
+    
+        // Cerrar el modal y reiniciar el formulario
+        document.getElementById('editModal').style.display = 'none';
+        document.getElementById('editForm').reset();
+    
+        // Recargar la lista de productos
         location.reload();
     });
 
