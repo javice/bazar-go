@@ -87,15 +87,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = document.getElementById('editName').value;
         const description = document.getElementById('editDescription').value;
         const category = document.getElementById('editCategory').value;
-        const stock = document.getElementById('editStock').value;
+        const stock = parseInt(document.getElementById('editStock').value, 10);
         const price = parseFloat(document.getElementById('editPrice').value);
     
+        // Validar los datos
+        if (!id || !name || !description || !category || isNaN(price) || isNaN(stock)) {
+            alert("Por favor, completa todos los campos correctamente.");
+            return;
+        }
+    
+        // Mostrar los datos enviados en la consola
+        console.log("Datos enviados al backend:", { id, category, description, name, price, stock });
+    
         // Enviar la solicitud PUT al backend
-        await fetch(`${apiUrl}/products/${id}`, {
+        const response = await fetch(`${apiUrl}/products/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ category, description, name, price, stock })
         });
+    
+        if (!response.ok) {
+            console.error("Error al actualizar el producto:", await response.text());
+            alert("Hubo un error al actualizar el producto.");
+            return;
+        }
     
         // Cerrar el modal y reiniciar el formulario
         document.getElementById('editModal').style.display = 'none';
