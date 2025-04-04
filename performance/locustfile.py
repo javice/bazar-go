@@ -1,5 +1,10 @@
-from locust import HttpUser, task, between
 import random
+from datetime import datetime
+from locust import HttpUser, task, between
+from faker import Faker
+
+fake = Faker()
+
 
 class BazarUser(HttpUser):
     wait_time = between(1, 5)  # Tiempo de espera entre tareas (1 a 5 segundos)
@@ -19,11 +24,11 @@ class BazarUser(HttpUser):
     @task(1)
     def create_product(self):
         response = self.client.post("/api/v1/products", json={
-            "name": "Producto de prueba",
-            "description": "Descripción de prueba",
-            "category": "Categoría de prueba",
-            "price": 10.99,
-            "stock": 100
+            "name": fake.word().capitalize() + " Producto",
+            "description": fake.sentence(),
+            "category": fake.word().capitalize(),
+            "price": round(random.uniform(5.0, 100.0), 2),
+            "stock": random.randint(1, 500)
         })
         if response.status_code == 201:
             product_id = response.json().get("product_id")
@@ -33,10 +38,10 @@ class BazarUser(HttpUser):
     @task(1)
     def create_client(self):
         response = self.client.post("/api/v1/clients", json={
-            "name": "Cliente de prueba",
-            "email": "cliente@prueba.com",
-            "phone": "123456789",
-            "address": "Dirección de prueba"
+            "name": fake.name(),
+            "email": fake.email(),
+            "phone": fake.phone_number(),
+            "address": fake.address(),
         })
         if response.status_code == 201:
             client_id = response.json().get("client_id")
@@ -48,11 +53,11 @@ class BazarUser(HttpUser):
         if self.created_products:
             product_id = random.choice(self.created_products)
             self.client.put(f"/api/v1/products/{product_id}", json={
-                "name": "Producto actualizado",
-                "description": "Descripción actualizada",
-                "category": "Categoría actualizada",
-                "price": 15.99,
-                "stock": 50
+                "name": fake.word().capitalize() + " Actualizado",
+                "description": fake.sentence(),
+                "category": fake.word().capitalize(),
+                "price": round(random.uniform(5.0, 100.0), 2),
+                "stock": random.randint(1, 500)
             })
 
     @task(1)
@@ -60,10 +65,10 @@ class BazarUser(HttpUser):
         if self.created_clients:
             client_id = random.choice(self.created_clients)
             self.client.put(f"/api/v1/clients/{client_id}", json={
-                "name": "Cliente actualizado",
-                "email": "cliente@actualizado.com",
-                "phone": "987654321",
-                "address": "Dirección actualizada"
+                "name": fake.name(),
+                "email": fake.email(),
+                "phone": fake.phone_number(),
+                "address": fake.address(),
             })
 
     @task(1)
@@ -83,14 +88,16 @@ class BazarUser(HttpUser):
         if self.created_clients and self.created_products:
             client_id = random.choice(self.created_clients)
             product_id = random.choice(self.created_products)
+            current_date = datetime.now().strftime("%Y-%m-%d")
+            stock = random.randint(1, 5)
             self.client.post("/api/v1/sales", json={
                 "client_id": client_id,
-                "date": "2025-04-04",
+                "date": current_date,
                 "products": [
-                    {"product_id": product_id, "stock": 2}
+                    {"product_id": product_id, "stock": stock}
                 ],
-                "quantity": 2,
-                "total_amount": 21.98
+                "quantity": stock,
+                "total_amount": round(random.uniform(20.0, 200.0), 2)
             })
 
     def on_start(self):
