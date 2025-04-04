@@ -47,7 +47,7 @@ verify-binary:
 # Ejecutar Locust
 locust:
 	@echo "Ejecutando Locust..."
-	@cd locust && locust -f locustfile.py --host=https://bazar-go.onrender.com
+	@cd performance && locust -f locustfile.py --host=https://bazar-go.onrender.com
 
 # Ejecutar todo el flujo
 all: deps test build-backend verify-binary
