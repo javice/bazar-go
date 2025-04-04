@@ -14,3 +14,10 @@
 
 - Frontend básico para listar y modificar productos.
 - Se añade funcionalidad para realizar compras.
+
+## [1.1.2] - 2025-04-02
+
+### Added v1.1.2
+
+- Se añade performance test me diante Locust.
+- Se añade nuevo directorio '/Performance/locistfile.py.

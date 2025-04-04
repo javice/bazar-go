@@ -2,7 +2,7 @@
 BINARY_NAME = bazar-api
 SWAGGER_CMD = swag init -g cmd/main.go
 
-.PHONY: run-backend test swagger migrate run-backend open-frontend build-backend verify-binary all help
+.PHONY: run-backend test swagger migrate run-backend open-frontend build-backend verify-binary  locust all help
 
 # Iniciar servidor
 run-backend:
@@ -43,6 +43,11 @@ build-backend:
 verify-binary:
 	@echo "Verificando que el binario existe..."
 	@test -f backend/build/${BINARY_NAME} && echo "El binario existe: backend/build/${BINARY_NAME}" || echo "El binario no existe"
+
+# Ejecutar Locust
+locust:
+	@echo "Ejecutando Locust..."
+	@cd locust && locust -f locustfile.py --host=https://bazar-go.onrender.com
 
 # Ejecutar todo el flujo
 all: deps test build-backend verify-binary
